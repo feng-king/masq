@@ -1,0 +1,16 @@
+Description=A Masquerade proxy server daemon
+Documentation=https://github.com/feng-king/masq
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+WorkingDirectory=/usr/local/bin
+## set log level
+Environment=RUST_LOG=debug
+## set start options
+ExecStart=/usr/local/bin/masq_server -b 0.0.0.0:443 --cert 114514.com.pem --key 114514.com.key
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,2 @@
+[workspace]
+members = ["masq_client", "masq_server"]
