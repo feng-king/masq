@@ -8,7 +8,7 @@ WorkingDirectory=/usr/local/bin
 ## set log level
 Environment=RUST_LOG=debug
 ## set start options
-ExecStart=/usr/local/bin/masq_server -b 0.0.0.0:443 --cert 114514.com.pem --key 114514.com.key
+ExecStart=/usr/local/bin/masq_server -b 0.0.0.0:443 --cert 114514.com.pem --key 114514.com.key -C bbr
 Restart=always
 RestartSec=2
 

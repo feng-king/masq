@@ -1,6 +1,5 @@
 use masquerade_proxy::server::Server;
 
-use std::env::set_var;
 use std::error::Error;
 
 use argh::FromArgs;
@@ -14,14 +13,17 @@ struct Args {
     #[argh(option, short = 'b')]
     listen: String,
 
-    /// your cert path. default "./exam.pem". (可以利用 acme.sh + 域名 获取免费证书，或通过 openssl 生成自签证书)
+    /// your cert path. default "./exam.pem". (可以利用 acme.sh + 域名 获取免费证书,或通过 openssl 生成自签证书)
     #[argh(option, default = "String::from(\"./exam.pem\")")]
     cert: String,
 
     /// your key path. default "./exam.key". 
     #[argh(option, default = "String::from(\"./exam.key\")")]
     key: String,
-
+    
+    /// the congestion control for quic connection. default cubic. (设定quic流控,可选: reno,bbr,cubic)
+    #[argh(option, short = 'C', default = "String::from(\"cubic\")")]
+    congestion_control: String,
 }
 
 
@@ -34,5 +36,5 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let mut server = Server::new();
     server.bind(&op.listen).await?;
 
-    server.run(&op.cert, &op.key).await
+    server.run(&op.cert, &op.key, &op.congestion_control).await
 }
